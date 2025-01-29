@@ -85,3 +85,26 @@ if( function_exists('acf_add_options_page') ) {
       'parent_slug'   => 'theme-general-settings',
   ));
 }
+
+/**
+ * Enqueue scripts and styles.
+ */
+function _themeprefix_theme_scripts() {
+  $version = wp_get_theme()->get( 'Version' );
+
+  // styles
+  wp_register_style('section-a', get_stylesheet_directory_uri() . './css/section-a/section-a.css');
+  wp_register_style('section-b', get_stylesheet_directory_uri() . './css/section-b/section-b.css');
+}
+add_action( 'wp_enqueue_scripts', '_themeprefix_theme_scripts' );
+
+
+// Initializing aсf blocks for gutenberg
+require_once get_template_directory() . '/inc/acf/blocks/blocks-init.php';
+
+// compiled styles from gulp
+function theme_enqueue_styles() {
+  wp_enqueue_style('theme-a-style', get_template_directory_uri() . './css/section-a/section-a.css', [], '1.0.0');
+  wp_enqueue_style('theme-a-style', get_template_directory_uri() . './css/section-b/section-b.css', [], '1.0.0');
+}
+add_action('wp_enqueue_scripts', 'theme_enqueue_styles');
